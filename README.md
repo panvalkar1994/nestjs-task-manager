@@ -41,4 +41,4 @@ $ npm run test:cov
 
 
 ## License
-None Yet
+UNLICENSED
