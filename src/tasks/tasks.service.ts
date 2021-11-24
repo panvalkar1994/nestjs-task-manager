@@ -11,8 +11,8 @@ export class TasksService {
     return this.tasks;
   }
 
-  getTaskById(id:string):Task{
-      return this.tasks.find(task=>task.id===id);
+  getTaskById(id: string): Task {
+    return this.tasks.find((task) => task.id === id);
   }
 
   createTask(createTaskDto: CreateTaskDto): Task {
@@ -28,19 +28,30 @@ export class TasksService {
     return task;
   }
 
-  deleteTaskById(id:string):number{
-      let idx = -1;
-      let changedRecords = 0;
-      for(let i=0; i<this.tasks.length; i++){
-          if(this.tasks[i].id==id){
-            idx = i;
-            break;
-          }
+  deleteTaskById(id: string): number {
+    let idx = -1;
+    let changedRecords = 0;
+    for (let i = 0; i < this.tasks.length; i++) {
+      if (this.tasks[i].id == id) {
+        idx = i;
+        break;
       }
-      if(idx!=-1){
-          this.tasks.splice(idx, 1);
-          changedRecords++;
+    }
+    if (idx != -1) {
+      this.tasks.splice(idx, 1);
+      changedRecords++;
+    }
+    return changedRecords;
+  }
+
+  updateTaskStatus(id: string, status: TaskStatus): Task {
+    let idx = -1;
+    this.tasks.forEach((task, index) => {
+      if (task.id === id) {
+        idx = index;
       }
-      return changedRecords;
+    });
+    this.tasks[idx].status = status;
+    return this.tasks[idx];
   }
 }
