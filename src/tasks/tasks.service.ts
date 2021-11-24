@@ -27,4 +27,20 @@ export class TasksService {
     this.tasks.push(task);
     return task;
   }
+
+  deleteTaskById(id:string):number{
+      let idx = -1;
+      let changedRecords = 0;
+      for(let i=0; i<this.tasks.length; i++){
+          if(this.tasks[i].id==id){
+            idx = i;
+            break;
+          }
+      }
+      if(idx!=-1){
+          this.tasks.splice(idx, 1);
+          changedRecords++;
+      }
+      return changedRecords;
+  }
 }
