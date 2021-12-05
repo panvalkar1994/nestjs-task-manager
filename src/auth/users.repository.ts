@@ -1,8 +1,9 @@
 import {
   ConflictException,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
-import { EntityRepository, Repository } from 'typeorm';
+import { CustomRepositoryDoesNotHaveEntityError, EntityRepository, Repository } from 'typeorm';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { User } from './user.entity';
 import * as Bcrypt from 'bcrypt';
@@ -28,5 +29,15 @@ export class UsersRepository extends Repository<User> {
         throw new InternalServerErrorException();
       }
     }
+  }
+
+  async findUserByUsername(username:string):Promise<User>{
+    const query = this.createQueryBuilder('user');
+    query.andWhere('user.username = :username', {username});
+    const user = await query.getOne();
+    if(!user){
+      throw new NotFoundException();
+    }
+    return user;
   }
 }
